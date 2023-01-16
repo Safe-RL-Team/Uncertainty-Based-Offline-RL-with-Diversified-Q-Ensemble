@@ -4,8 +4,17 @@ Based on https://github.com/snu-mllab/EDAC
 
 ## run blog locally
 
+### install
+
+* install [Quarto](https://quarto.org/docs/download/)
+* clone this repo
+
 ```bash
-cd blog
-pip install -r requirements.txt
-quarto preview blog.qmd
+pip install -r blog/requirements.txt
+```
+
+## run
+
+```bash
+quarto preview blog/blog.qmd
 ```
