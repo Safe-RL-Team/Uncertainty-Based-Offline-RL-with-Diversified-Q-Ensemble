@@ -1,6 +1,6 @@
 # Uncertainty-Based-Offline-RL-with-Diversified-Q-Ensemble
 
-Based on https://github.com/snu-mllab/EDAC
+Based on https://github.com/snu-mllab/EDAC.
 
 ## run blog locally
 
@@ -13,7 +13,7 @@ Based on https://github.com/snu-mllab/EDAC
 pip install -r blog/requirements.txt
 ```
 
-## run
+### run
 
 ```bash
 quarto preview blog/blog.qmd
