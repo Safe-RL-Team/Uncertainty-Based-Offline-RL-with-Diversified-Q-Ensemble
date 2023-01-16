@@ -11,6 +11,25 @@ abstract: |
     TODO: abstract
 ---
 
+# Example Plot
+
+```{python}
+#| title: Example Plot
+#| label: fig-example-plot
+#| fig-cap: An example plot that shows a sine wave.
+#| code-fold: true
+import matplotlib.pyplot as plt
+import numpy as np
+
+# make an example plot
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+
+plt.plot(x, y)
+```
+
+This section is just exemplary. @fig-example-plot shows an example plot.
+
 # Filler Content
 
 > ChatGPT: write a blog article in markdown about "Uncertainty-Based Offline Reinforcement Learning with Diversified Q-Ensemble"
