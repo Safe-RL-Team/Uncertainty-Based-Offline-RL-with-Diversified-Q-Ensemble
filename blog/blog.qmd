@@ -11,6 +11,81 @@ abstract: |
     TODO: abstract
 ---
 
+# Introduction
+
+TODO
+
+# Preliminaries
+
+TODO
+
+# Soft Actor-Critic (SAC-N)
+
+The paper introduces two new methods for offline RL. The first method is called SAC-N and is an extension of Soft Actor-Critic (SAC) [@Haarnoja2018SoftAO], which is a popular off-policy actor-critic deep RL algorithm.
+SAC-N extends SAC by using the minimum q-value of N instead of two q-functions, i.e. critics. The idea behind using the minimum of more critics is that the resulting q-value is more pessimistic and therefore more likely to avoid erroneously high q-values. This is especially important for offline RL, where the q-values are estimated from a limited dataset and erroneouly high q-values cannot be corrected through exploration.
+
+The minimum of multiple critics approximates the true q-value minus a multiple of the standard deviation [@an2021edac]:
+
+$$ \mathbb{E}\left [\min_{i=1,...,N}Q_i\right] \approx m - \Phi^{-1}\left(\frac{N-\pi/8}{N-\pi/4+1}\right) \sigma $$
+
+Where $N$ is the number of critics, $Q_i$ is the q-value of the $i$-th critic, $m$ is the true q-value, $\Phi$ is the CDF of the standard gaussian distribution, and $\sigma$ is the standard deviation.
+
+This is visualized in the diagram below, where q-value estimates over an exemplrary action space are plotted.The black line is the true q-value and the grey area its standard deviation. The lightblue lines represent the critics, that try to approximate the true q-value. The bottom blue line is the minimum of the critics, that should, especially for a high number of critics, be roughly the true q-value minus a multiple of the standard deviation. You can use the slider to change the number of critics:
+
+```{ojs}
+//| echo: false
+means = [10,12, 9,10,11,11,12,10, 9, 8,10,11,12,14,13,13,11,10, 9,10];
+stds  = [ 2, 3, 2, 1, 2, 3, 2, 3, 4, 2, 3, 4, 2, 1, 3, 2, 1, 2, 3, 2];
+viewof num_critics = Inputs.range([1,50], {value:20, step:1, label: "number of critics"});
+function gaussianRandom(mean=0, stdev=1) {
+    let u = 1 - Math.random(); // Converting [0,1) to (0,1]
+    let v = Math.random();
+    let z = Math.sqrt(-2.0*Math.log(u)) * Math.cos(2.0*Math.PI*v);
+    return z * stdev + mean;
+}
+function example_critic() {
+  return [...Array(means.length).keys()].map((i)=>gaussianRandom(means[i], stds[i]));
+}
+function toPlot(data, color){
+  return Plot.line(data.map((x, i)=>({"action space": i, "q-value": x})), {x: "action space", y: "q-value", stroke: color});
+}
+critics = [...Array(num_critics).keys()].map(i=>example_critic());
+Plot.plot({
+  marks: [
+      Plot.areaY(means.map((x,i)=>({"action space": i, low:x-stds[i], high:x+stds[i]})), {x: "action space", y1: "low", y2: "high", fill: "#ddd"}),
+      ...(critics.map(x=>toPlot(x, "lightblue"))),
+      toPlot([...Array(means.length).keys()].map(i=>Math.min(...critics.map(x=>x[i]))), "blue"),
+      toPlot(means, "black"),
+  ],
+  y: {
+    domain: [0, 20],
+    label: "q-value"
+  }
+});
+```
+
+SAC-N already achieve notable performance and beats the previous state of the art, CQL, as will be shown in [Results](#results). However, SAC-N requires a large number of critics, which comes with a high computational cost. Therefore, the paper introduces a second method, EDAC, that is more efficient.
+
+
+# Ensemble-Diversified Actor Critic (EDAC)
+
+EDAC improves over SAC-N, by introducing an ensemble gradient diversification term to the optimization of the ensemble of critics:
+
+$$ \underset\phi{\text{minimize}}\ \ \frac{1}{N-1} \sum_{1\leq i\neq j \leq N} \langle \nabla_a Q_{\phi_i}, \nabla_a Q_{\phi_j} \rangle $$
+
+
+# Results
+\label{sec-results}
+
+
+
+# Conclusion
+
+TODO
+
+
+---
+
 # Example Plot
 
 ```{python}
