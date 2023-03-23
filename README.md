@@ -1,6 +1,6 @@
 # Uncertainty-Based-Offline-RL-with-Diversified-Q-Ensemble
 
-This is a blog based on the EDAC paper: [Uncertainty-Based Offline Reinforcement Learning with Diversified Q-Ensemble](https://arxiv.org/abs/2110.01548)
+This is a blog post based on the paper [Uncertainty-Based Offline Reinforcement Learning with Diversified Q-Ensemble](https://arxiv.org/abs/2110.01548), which proposes the offline RL algorithm EDAC (Ensemble Diversified Actor Critic).
 
 There are several implementations:
 * [official](https://github.com/snu-mllab/EDAC)
