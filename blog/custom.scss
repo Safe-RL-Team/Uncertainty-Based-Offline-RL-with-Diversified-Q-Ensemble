@@ -1,5 +1,17 @@
 /*-- scss:rules --*/
+
+// disable horizontal scrollbars in figures
 .cell-output {
-    // disable horizontal scrollbars in figures
     overflow-x: hidden !important;
+}
+
+// but enable them in plotly graphs and math blocks, to avoid overly wide website on mobile
+.plotly-graph-div {
+    max-width: 100%;
+    overflow-x: scroll;
+}
+.math.display {
+    display: block;
+    max-width: 100%;
+    overflow-x: scroll;
 }
